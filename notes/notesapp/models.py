@@ -26,17 +26,24 @@ class Note(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     color = models.CharField(max_length=7, choices=COLOR_CHOICES, default=COLOR_CHOICES[0])
 
+    def is_arvivated(self) -> bool:
+        return len(Archive.objects.filter(note=self)) == 1
+
     def __str__(self):
         return self.title
+
+    def archivate(self):
+        if not self.is_arvivated():
+            Archive.objects.create(note=self)
+
+    def dearchivate(self):
+        if self.is_arvivated():
+            Archive.objects.get(note=self).delete()
 
 
 class Archive(models.Model):
     note = models.ForeignKey(Note, on_delete=models.CASCADE)
     archivation_date = models.DateField(default=timezone.now)
-
-    @staticmethod
-    def archivate(note: Note):
-        return Archive(note=note)
 
     def __str__(self):
         return str(self.note)
