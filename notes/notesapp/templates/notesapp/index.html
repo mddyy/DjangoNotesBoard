@@ -8,8 +8,7 @@
         <h1 style="text-align:center;">Заметки</h1>
 	</head>
 	<body>
-        {% block loginout %}
-        {% if user.is_authenticated %}
+        {% block content %}
             <p align="center"><a href="{% url 'logout' %}">Log Out</a></p>
             <div class="container">
                 <table class="table table-striped">
@@ -36,9 +35,7 @@
                     {% endfor %}
                 </table>
             </div>
-        {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
-        {% endif %}
+        <p align="center"><a href="{% url 'archive' %}">Архивированные заметки</a></p>
         {% endblock %}
 	</body>
 </html>

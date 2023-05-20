@@ -1,0 +1,32 @@
+{% extends "notesapp/index.html" %}
+
+{% block content %}
+<p align="center"><a href="{% url 'logout' %}">Log Out</a></p>
+<p align="center">Архив</p>
+<p align="center"><a href="{% url 'mainpage' %}">Назад</a></p>
+<div class="container">
+  <table class="table table-striped">
+    {% for item in notes %}
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th colspan="2">{{item.category.name}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Text</th>
+      </tr>
+      {% for note in item.notes_of_category %}
+      <tr style="background: {{note.color}}">
+        <th scope="row" >{{note.title}}</th>
+        <td>{{note.text}}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

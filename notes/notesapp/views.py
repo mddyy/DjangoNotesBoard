@@ -12,7 +12,39 @@ class MainPage(LoginRequiredMixin, TemplateView):
 
         # отобрать все заметки данного пользователя за исключением архивированных
         archive = {item.note for item in Archive.objects.all()}
-        categories = (note.category for note in Note.objects.filter(creator=self.request.user) if note not in archive)
+        categories = {note.category for note in Note.objects.filter(creator=self.request.user) if note not in archive}
+
+        # сгруппировать заметки по категориям и отсортировать по дате изменения
+        notes = [
+            {
+                'category': category,
+                'notes_of_category': [
+                    note for note in Note.objects\
+                        .filter(creator=self.request.user, category=category)\
+                        .order_by('last_change')
+                ]
+            }
+            for category in categories
+        ]
+
+        # передать полученный список в шаблон
+        context.update(
+            {
+                'notes': notes,
+            }
+        )
+        return context
+
+
+class ArchivePage(LoginRequiredMixin, TemplateView):
+    template_name = 'notesapp/archive.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArchivePage, self).get_context_data(**kwargs)
+
+        # отобрать все заметки данного пользователя за исключением архивированных
+        archive = {item.note for item in Archive.objects.all()}
+        categories = {note.category for note in Note.objects.filter(creator=self.request.user) if note in archive}
 
         # сгруппировать заметки по категориям и отсортировать по дате изменения
         notes = [
