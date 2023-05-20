@@ -13,20 +13,23 @@
             <p align="center"><a href="{% url 'logout' %}">Log Out</a></p>
             <div class="container">
                 <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Заголовок</th>
-                        <th>Текст заметки</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {% for note in notes %}
+                    {% for item in notes %}
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <th scope="row">{{note.title}}</th>
-                                 <td>{{note.text}}</td>
+                                <th>{{item.category.name}}</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
+                        </thead>
+                        <tbody>
+                            {% for note in item.notes_of_category %}
+                                <tr>
+                                    <th scope="row" style="background: {{note.color}}">{{note.title}}</th>
+                                    <td>{{note.text}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endfor %}
                 </table>
             </div>
         {% else %}
