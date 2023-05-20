@@ -21,7 +21,7 @@ class Note(models.Model):
 
     title = models.CharField(max_length=50)
     text = models.TextField(blank=True)
-    last_change = models.DateTimeField(default=timezone.now())
+    last_change = models.DateTimeField(default=timezone.now)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     color = models.CharField(max_length=7, choices=COLOR_CHOICES, default=COLOR_CHOICES[0])
@@ -32,7 +32,7 @@ class Note(models.Model):
 
 class Archive(models.Model):
     note = models.ForeignKey(Note, on_delete=models.CASCADE)
-    archivation_date = models.DateField(default=timezone.now().date())
+    archivation_date = models.DateField(default=timezone.now)
 
     @staticmethod
     def archivate(note: Note):
