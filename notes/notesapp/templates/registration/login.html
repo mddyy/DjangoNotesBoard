@@ -1,0 +1,45 @@
+{% extends "notesapp/index.html" %}
+
+{% block loginout %}
+
+{% if form.errors %}
+  <p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+  {% else %}
+    <p>Please login to see this page.</p>
+  {% endif %}
+{% endif %}
+
+<div class="container">
+  <form method="post" action="{% url 'login' %}">
+  {% csrf_token %}
+      <table align="center">
+
+        <tr>
+          <td>{{ form.username.label_tag }}</td>
+          <td>{{ form.username }}</td>
+        </tr>
+
+        <tr>
+          <td>{{ form.password.label_tag }}</td>
+          <td>{{ form.password }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            <input type="submit" value="login"/>
+          </td>
+          <td>
+            <input type="hidden" name="next" value="{{ next }}" />
+          </td>
+        </tr>
+      </table>
+
+  </form>
+</div>
+{% endblock %}

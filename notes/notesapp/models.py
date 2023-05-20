@@ -1,6 +1,6 @@
-from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -18,14 +18,14 @@ class Category(models.Model):
 class Note(models.Model):
     title = models.CharField(max_length=50)
     text = models.TextField(blank=True)
-    username = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
 
 class Archive(models.Model):
     note_id = models.ForeignKey(Note, on_delete=models.CASCADE)
-    archivation_date = models.DateField(default=date.today())
+    archivation_date = models.DateField(default=timezone.now().date())
 
     @staticmethod
     def archivate(note: Note):
-        return Archive(note_id = note.id, archivation_date = date.today())
+        return Archive(note_id=note.id)

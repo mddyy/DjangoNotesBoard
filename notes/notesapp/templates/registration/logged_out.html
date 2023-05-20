@@ -1,0 +1,15 @@
+{% extends "notesapp/index.html" %}
+
+{% block loginout %}
+<div class="container">
+    <table align="center">
+        <tr>
+            <td>Logged out!</td>
+        </tr>
+        <tr>
+            <td><a href="{% url 'login'%}">Click here to login again.</a></td>
+        </tr>
+    </table>
+</div>
+
+{% endblock %}
