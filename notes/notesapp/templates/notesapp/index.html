@@ -17,15 +17,19 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>{{item.category.name}}</th>
+                                <th colspan="2">{{item.category.name}}</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Text</th>
+                            </tr>
                             {% for note in item.notes_of_category %}
-                                <tr>
-                                    <th scope="row" style="background: {{note.color}}">{{note.title}}</th>
-                                    <td>{{note.text}}</td>
-                                </tr>
+                            <tr style="background: {{note.color}}">
+                                <th scope="row" >{{note.title}}</th>
+                                <td>{{note.text}}</td>
+                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>
