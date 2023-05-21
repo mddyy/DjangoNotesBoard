@@ -1,0 +1,15 @@
+{% extends "notesapp/index.html" %}
+
+{% block content %}
+<p align="center">Редактировать заметку</p>
+<p align="center"><a href="{% url 'mainpage' %}">Назад</a></p>
+<div class="container">
+  <form action="" method="post">
+        {% csrf_token %}
+        <table>
+        {{ form }}
+        </table>
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+{% endblock %}

@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django import forms
 from django.views.generic.base import TemplateView, View
 from .models import Category, Note, Archive
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.utils import timezone
 
 
 class MainPage(LoginRequiredMixin, TemplateView):
@@ -66,3 +70,35 @@ class ArchivePage(LoginRequiredMixin, TemplateView):
             }
         )
         return context
+
+
+class NoteForm(forms.Form):
+    title = forms.CharField(required=True)
+    text = forms.CharField(required=False)
+    category = forms.ModelChoiceField(queryset=Category.objects.all())
+    color = forms.ChoiceField(choices=Note.COLOR_CHOICES)
+
+
+def edit_note(request, pk):
+    note_instance = get_object_or_404(Note, pk=pk)
+    note_instance.creator = request.user
+
+    # если запрос был POST - создать шаблон с заполненными данными
+    if request.method == 'POST':
+        form = NoteForm(request.POST)
+
+        if form.is_valid():
+            note_instance.title = form.cleaned_data['title']
+            note_instance.category = form.cleaned_data['category']
+            note_instance.color = form.cleaned_data['color']
+            note_instance.last_change = timezone.now()
+            note_instance.text = form.cleaned_data['text']
+
+            note_instance.save()
+            return HttpResponseRedirect(reverse('mainpage'))
+
+    else:
+        general_category = Category.objects.all()[0]
+        form = NoteForm(initial={'category': general_category, 'color': Note.COLOR_CHOICES[0]})
+
+    return render(request, 'notesapp/edit.html', {'form': form, 'note_instance': note_instance})
