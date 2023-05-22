@@ -25,7 +25,7 @@ class MainPage(LoginRequiredMixin, TemplateView):
                 'notes_of_category': [
                     note for note in Note.objects\
                         .filter(creator=self.request.user, category=category)\
-                        .order_by('last_change')
+                        .order_by('last_change') if note not in archive
                 ]
             }
             for category in categories
@@ -57,7 +57,7 @@ class ArchivePage(LoginRequiredMixin, TemplateView):
                 'notes_of_category': [
                     note for note in Note.objects\
                         .filter(creator=self.request.user, category=category)\
-                        .order_by('last_change')
+                        .order_by('last_change') if note in archive
                 ]
             }
             for category in categories
@@ -72,14 +72,14 @@ class ArchivePage(LoginRequiredMixin, TemplateView):
         return context
 
 
-class NoteForm(forms.Form):
-    title = forms.CharField(required=True)
-    text = forms.CharField(required=False)
-    category = forms.ModelChoiceField(queryset=Category.objects.all())
-    color = forms.ChoiceField(choices=Note.COLOR_CHOICES)
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ('title', 'text', 'category', 'color')
 
 
 def edit_note(request, pk):
+    form = NoteForm()
     note_instance = get_object_or_404(Note, pk=pk)
     note_instance.creator = request.user
 
@@ -102,3 +102,7 @@ def edit_note(request, pk):
         form = NoteForm(initial={'category': general_category, 'color': Note.COLOR_CHOICES[0]})
 
     return render(request, 'notesapp/edit.html', {'form': form, 'note_instance': note_instance})
+
+
+def new_note(request):
+    pass
