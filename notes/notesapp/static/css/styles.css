@@ -1,0 +1,50 @@
+.category {
+    margin: 0;
+    padding: 0.3rem;
+    background-color: #eee;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+.note {
+    --bg-color: #fff;
+    border-radius: 1em;
+    border: 1px solid rgb(150,150,150);
+    background:
+        linear-gradient(rgba(255,255,255,.1) 50%, rgba(0,0,0,.1) 100%)
+        var(--bg-color)
+        no-repeat;
+    padding: 5px;
+    padding-top: 0;
+    min-height: 10px;
+    max-height: inherit;
+}
+
+.note:hover {
+    background:
+        linear-gradient(rgba(255,255,255,.2) 50%, rgba(0,0,0,.15) 100%)
+        var(--bg-color)
+        no-repeat;
+}
+
+h3 {
+    font-size: 18pt;
+    margin-left: 5px;
+}
+
+p {
+    font-size: 14pt;
+    margin: 5px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.container {
+    width: 100%;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 70ch);
+    grid-template-rows: repeat(auto);
+    grid-gap: 10px;
+}

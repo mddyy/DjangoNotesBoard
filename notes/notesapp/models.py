@@ -40,6 +40,13 @@ class Note(models.Model):
         if self._is_arvivated():
             Archive.objects.filter(note=self).delete()
 
+    @property
+    def sliced_text(self):
+        if len(self.text) > 80:
+            return self.text[:80] + '...'
+        else:
+            return self.text
+
 
 class Archive(models.Model):
     note = models.ForeignKey(Note, on_delete=models.CASCADE)

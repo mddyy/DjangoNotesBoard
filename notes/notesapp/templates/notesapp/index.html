@@ -1,10 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 	<head>
 		<meta charset="utf-8" />
 		<title>Django Notes</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <h1 style="text-align:center;">Заметки</h1>
 	</head>
 	<body>
@@ -12,25 +14,25 @@
             <p align="center"><a href="{% url 'logout' %}">Log Out</a></p>
             <p align="center"><a href="{% url 'new' %}">New</a></p>
             <div class="container">
-                <table class="table table-striped">
+                <table class="table">
                     {% for item in notes %}
-                    <table class="table table-striped">
+                    <table class=" table table-bordered">
                         <thead>
                             <tr>
-                                <th colspan="2">{{item.category.name}}</th>
+                                <th colspan="4">{{item.category.name}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="col">Title</th>
-                                <th scope="col">Text</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
+                                <th scope="col" width="250">Title</th>
+                                <th scope="col" width="60%">Text</th>
+                                <th scope="col" width="50"></th>
+                                <th scope="col" width="50"></th>
                             </tr>
                             {% for note in item.notes_of_category %}
                             <tr style="background: {{note.color}}">
                                 <th scope="row" >{{note.title}}</th>
-                                <td>{{note.text}}</td>
+                                <td><p>{{note.sliced_text}}</p></td>
                                 <td><a href="{% url 'edit' note.id %}">Edit</a></td>
                                 <td><a href="{% url 'archivate' note.id %}">Archivate</a></td>
                             </tr>
@@ -39,6 +41,24 @@
                     </table>
                     {% endfor %}
                 </table>
+
+                <div class="container">
+                    {% for item in notes %}
+                <article class="category">
+                    <h2>{{item.category.name}}</h2>
+                    <div class="wrapper">
+                        {% for note in item.notes_of_category %}
+                    <article class="note" style="--bg-color: {{note.color}};">
+                        <h3>{{note.title}}</h3>
+                        <p>{{note.sliced_text}}</p>
+                    </article>
+                    {% endfor %}
+                    </div>
+                </article>
+                {% endfor %}
+                </div>
+
+
             </div>
         <p align="center"><a href="{% url 'archive' %}">Архивированные заметки</a></p>
         {% endblock %}

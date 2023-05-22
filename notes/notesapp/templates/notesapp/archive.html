@@ -5,19 +5,19 @@
 <p align="center">Архив</p>
 <p align="center"><a href="{% url 'mainpage' %}">Назад</a></p>
 <div class="container">
-  <table class="table table-striped">
+  <table class="table">
     {% for item in notes %}
-    <table class="table table-striped">
+    <table class="table table-bordered">
       <thead>
       <tr>
-        <th colspan="2">{{item.category.name}}</th>
+        <th colspan="3">{{item.category.name}}</th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <th scope="col">Title</th>
+        <th scope="col" width="250">Title</th>
         <th scope="col">Text</th>
-        <th scope="col"></th>
+        <th scope="col" width="50"></th>
       </tr>
       {% for note in item.notes_of_category %}
       <tr style="background: {{note.color}}">
