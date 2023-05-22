@@ -5,30 +5,27 @@
 <p align="center">Архив</p>
 <p align="center"><a href="{% url 'mainpage' %}">Назад</a></p>
 <div class="container">
-  <table class="table">
-    {% for item in notes %}
-    <table class="table table-bordered">
-      <thead>
-      <tr>
-        <th colspan="3">{{item.category.name}}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th scope="col" width="250">Title</th>
-        <th scope="col">Text</th>
-        <th scope="col" width="50"></th>
-      </tr>
+  <div class="container">
+  {% for item in notes %}
+    <article class="category">
+      <h2>{{item.category.name}}</h2>
+      <div class="wrapper">
       {% for note in item.notes_of_category %}
-      <tr style="background: {{note.color}}">
-        <th scope="row" >{{note.title}}</th>
-        <td>{{note.text}}</td>
-        <td><a href="{% url 'unarchivate' note.id %}">Unarchivate</a></td>
-      </tr>
+        <div>
+          <div class="note" style="--bg-color: {{note.color}};">
+            <div class="note_header">
+              <a href="{% url 'edit' note.id %}">
+                <h3>{{note.title}}</h3>
+              </a>
+              <button type="submit" onclick="location.href='{% url 'unarchivate' note.id %}'">A</button>
+            </div>
+            <p>{{note.sliced_text}}</p>
+          </div>
+        </div>
       {% endfor %}
-      </tbody>
-    </table>
+      </div>
+    </article>
     {% endfor %}
-  </table>
+  </div>
 </div>
 {% endblock %}
