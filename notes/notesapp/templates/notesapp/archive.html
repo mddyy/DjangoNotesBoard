@@ -17,11 +17,13 @@
       <tr>
         <th scope="col">Title</th>
         <th scope="col">Text</th>
+        <th scope="col"></th>
       </tr>
       {% for note in item.notes_of_category %}
       <tr style="background: {{note.color}}">
         <th scope="row" >{{note.title}}</th>
         <td>{{note.text}}</td>
+        <td><a href="{% url 'unarchivate' note.id %}">Unarchivate</a></td>
       </tr>
       {% endfor %}
       </tbody>

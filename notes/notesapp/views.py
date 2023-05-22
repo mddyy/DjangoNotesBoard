@@ -129,3 +129,15 @@ def edit_note(request, pk):
         form = NoteForm(instance=note_instance)
 
     return render(request, 'notesapp/edit.html', {'form': form})
+
+
+def archivate_note(request, pk):
+    note_instance = get_object_or_404(Note, pk=pk)
+    Archive.objects.create(note=note_instance)
+    return redirect('mainpage')
+
+
+def unarchivate_note(request, pk):
+    note_instance = get_object_or_404(Note, pk=pk)
+    Archive.objects.filter(note=note_instance)[0].delete()
+    return redirect('mainpage')
