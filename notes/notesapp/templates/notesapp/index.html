@@ -54,14 +54,19 @@
                     <h2>{{item.category.name}}</h2>
                     <div class="wrapper">
                         {% for note in item.notes_of_category %}
-                        <a href="{% url 'edit' note.id %}">
-                    <article>
+
+                    <div>
                         <div class="note" style="--bg-color: {{note.color}};">
-                            <h3>{{note.title}}</h3>
+                            <div class="note_header">
+                                <a href="{% url 'edit' note.id %}">
+                                    <h3>{{note.title}}</h3>
+                                </a>
+                                <button type="submit" onclick="location.href='{% url 'archivate' note.id %}'">A</button>
+                            </div>
                             <p>{{note.sliced_text}}</p>
                         </div>
-                    </article>
-                            </a>
+                    </div>
+
                     {% endfor %}
                     </div>
                 </article>
