@@ -1,7 +1,9 @@
 .category {
-    margin: 0;
-    padding: 0.3rem;
-    background-color: #eee;
+    margin: 1em;
+    padding: 2em;
+    background-color: #fff7;
+    border-radius: 1em;
+    border: 1px solid #aaa5;
     font: 1rem 'Fira Sans', sans-serif;
 }
 
@@ -16,7 +18,8 @@
     padding: 5px;
     padding-top: 0;
     min-height: 10px;
-    max-height: inherit;
+    max-height: 30ch;
+    overflow-y: hidden;
 }
 
 .note:hover {
@@ -24,22 +27,37 @@
         linear-gradient(rgba(255,255,255,.2) 50%, rgba(0,0,0,.15) 100%)
         var(--bg-color)
         no-repeat;
+    max-height: 50ch;
+    overflow-y: auto;
 }
 
 h3 {
+    font-family: 'Ubuntu', sans-serif;
     font-size: 18pt;
-    margin-left: 5px;
+    font-weight: 400;
 }
 
 p {
+    font-family: 'Ubuntu', sans-serif;
     font-size: 14pt;
+    font-weight: 200;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.note > p, h3 {
+    color: black;
     margin: 5px;
     white-space: pre-wrap;
     word-break: break-all;
+    scrollbar-width: thin;
 }
 
 .container {
     width: 100%;
+    background-color: #eee;
 }
 
 .wrapper {
@@ -47,4 +65,15 @@ p {
     grid-template-columns: repeat(auto-fill, 70ch);
     grid-template-rows: repeat(auto);
     grid-gap: 10px;
+}
+
+.note::-webkit-scrollbar {
+  width: 16px;
+}
+
+.note::-webkit-scrollbar-thumb {
+  border: 6px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 10px;
+  background-color: #5555;
 }

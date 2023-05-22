@@ -7,6 +7,12 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet">
         <h1 style="text-align:center;">Заметки</h1>
 	</head>
 	<body>
@@ -48,10 +54,14 @@
                     <h2>{{item.category.name}}</h2>
                     <div class="wrapper">
                         {% for note in item.notes_of_category %}
-                    <article class="note" style="--bg-color: {{note.color}};">
-                        <h3>{{note.title}}</h3>
-                        <p>{{note.sliced_text}}</p>
+                        <a href="{% url 'edit' note.id %}">
+                    <article>
+                        <div class="note" style="--bg-color: {{note.color}};">
+                            <h3>{{note.title}}</h3>
+                            <p>{{note.sliced_text}}</p>
+                        </div>
                     </article>
+                            </a>
                     {% endfor %}
                     </div>
                 </article>
