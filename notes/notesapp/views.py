@@ -25,7 +25,7 @@ class MainPage(LoginRequiredMixin, TemplateView):
                 'notes_of_category': [
                     note for note in Note.objects\
                         .filter(creator=self.request.user, category=category)\
-                        .order_by('last_change') if note not in archive
+                        .order_by('-last_change') if note not in archive
                 ]
             }
             for category in categories
@@ -57,7 +57,7 @@ class ArchivePage(LoginRequiredMixin, TemplateView):
                 'notes_of_category': [
                     note for note in Note.objects\
                         .filter(creator=self.request.user, category=category)\
-                        .order_by('last_change') if note in archive
+                        .order_by('-last_change') if note in archive
                 ]
             }
             for category in categories
