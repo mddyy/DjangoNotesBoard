@@ -2,7 +2,7 @@ from django import forms
 from django.views.generic.base import TemplateView, View
 from .models import Category, Note, Archive
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
@@ -78,31 +78,54 @@ class NoteForm(forms.ModelForm):
         fields = ('title', 'text', 'category', 'color')
 
 
-def edit_note(request, pk):
+def new_note(request):
     form = NoteForm()
-    note_instance = get_object_or_404(Note, pk=pk)
-    note_instance.creator = request.user
 
     # если запрос был POST - создать шаблон с заполненными данными
     if request.method == 'POST':
         form = NoteForm(request.POST)
 
         if form.is_valid():
+            note_instance = form.save(commit=False)
+            note_instance.creator = request.user
+            note_instance.last_change = timezone.now()
+
             note_instance.title = form.cleaned_data['title']
+            note_instance.text = form.cleaned_data['text']
             note_instance.category = form.cleaned_data['category']
             note_instance.color = form.cleaned_data['color']
-            note_instance.last_change = timezone.now()
-            note_instance.text = form.cleaned_data['text']
 
             note_instance.save()
-            return HttpResponseRedirect(reverse('mainpage'))
+            return redirect('mainpage')
 
     else:
         general_category = Category.objects.all()[0]
         form = NoteForm(initial={'category': general_category, 'color': Note.COLOR_CHOICES[0]})
 
-    return render(request, 'notesapp/edit.html', {'form': form, 'note_instance': note_instance})
+    return render(request, 'notesapp/edit.html', {'form': form})
 
 
-def new_note(request):
-    pass
+def edit_note(request, pk):
+    note_instance = get_object_or_404(Note, pk=pk)
+
+    # если запрос был POST - создать шаблон с заполненными данными
+    if request.method == 'POST':
+        form = NoteForm(request.POST, instance=note_instance)
+
+        if form.is_valid():
+            note_instance = form.save(commit=False)
+            note_instance.creator = request.user
+            note_instance.last_change = timezone.now()
+
+            note_instance.title = form.cleaned_data['title']
+            note_instance.text = form.cleaned_data['text']
+            note_instance.category = form.cleaned_data['category']
+            note_instance.color = form.cleaned_data['color']
+
+            note_instance.save()
+            return redirect('mainpage')
+
+    else:
+        form = NoteForm(instance=note_instance)
+
+    return render(request, 'notesapp/edit.html', {'form': form})

@@ -10,6 +10,7 @@
 	<body>
         {% block content %}
             <p align="center"><a href="{% url 'logout' %}">Log Out</a></p>
+            <p align="center"><a href="{% url 'new' %}">New</a></p>
             <div class="container">
                 <table class="table table-striped">
                     {% for item in notes %}
