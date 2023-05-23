@@ -57,7 +57,6 @@ a:hover {
     margin: 5px;
     white-space: pre-wrap;
     word-break: break-all;
-    scrollbar-width: thin;
 }
 
 .note > p {
@@ -81,14 +80,7 @@ a:hover {
 }
 
 .note::-webkit-scrollbar {
-  width: 4px;
-}
-
-.note::-webkit-scrollbar-thumb {
-  border: 1px solid rgba(0, 0, 0, 0);
-  background-clip: content-box;
-  border-radius: 2px;
-  background-color: #5555;
+  display: none;
 }
 
 .note_header {
@@ -177,62 +169,66 @@ a:hover {
 }
 
 .form {
-    --bg-color: #fff;
+    --bg-color: rgb(0,255,9);
+    scrollbar-gutter: stable;
     position: fixed;
     top: 5%;
     left: 25%;
     width: 50%;
+    height: 70%;
     border-radius: 1em;
     border: 1px solid rgb(150,150,150);
     background:
-        linear-gradient(rgba(255,255,255,.2) 10%, rgba(1,1,1,.2) 100%)
+        linear-gradient(rgba(255,255,255,.2) 10%, rgba(1,1,1,.1) 100%)
         var(--bg-color)
         no-repeat;
+    background-attachment: local, local;
     padding: 5px;
     padding-top: 0;
-    overflow-y: hidden;
     z-index: 1;
+    overflow-y: auto;
 }
 
 input {
     background-color: #faf;
 }
 
-textarea {
+.textbox {
+    height: 100lh;
     background-color: none;
+    background-attachment: local;
+    font-size: 14pt;
+    background: linear-gradient(to bottom, transparent calc(1lh - 1px), #0005 1lh) top left / 100% 1lh;
+    overflow-y: hide;
+}
+
+textarea {
+    height: 100lh;
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: none;
     outline: none;
 	-moz-appearance: none;
 	border: none;
-	background: linear-gradient(to bottom, transparent calc(1lh - 1px), #0005 1lh) top left / 100% 1lh;
-	resize: vertical;
-    width: 100%;
-    max-height: 75vh;
-    min-height: 100px;
+	resize: none;
+
 }
+
+.form::-webkit-scrollbar {
+   display: none;
+ }
 
 textarea::-webkit-scrollbar {
-    width: 17px;
-}
+   display: none;
+ }
 
-textarea::-webkit-scrollbar-thumb {
-    border: 7px solid rgba(0, 0, 0, 0);
-    background-clip: content-box;
-    border-radius: 2px;
-    background-color: #5555;
-}
+ .textbox::-webkit-scrollbar {
+   display: none;
+ }
 
-textarea::-webkit-resizer {
-    background-image:
-    border: 1px solid rgba(0, 0, 0, 0);
-    background-clip: content-box;
-    border-radius: 5px;
-    background-color: #5555;
-}
-
-textarea::-webkit-scrollbar-corner {
-    background-image:
-    border: 1px solid rgba(0, 0, 0, 0);
-    background-clip: content-box;
-    border-radius: 5px;
-    background-color: #5555;
-}
+ .color-radio {
+    --bg-color: #fff;
+    background-color: var(--bg-color);
+    label: none;
+ }

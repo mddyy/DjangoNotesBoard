@@ -78,7 +78,7 @@ class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
         model = Note
         fields = ('title', 'text', 'category', 'color')
         widgets = {
-            #"text": forms.Textarea(attrs={"background-color": Note.COLOR_CHOICES[1]}),
+            "color": forms.RadioSelect(attrs={"background-color": Note.COLOR_CHOICES[1]}),
         }
         labels = {
             "title": "",

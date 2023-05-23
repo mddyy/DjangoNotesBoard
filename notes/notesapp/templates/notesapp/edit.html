@@ -41,9 +41,21 @@
     <div class="form" style="--bg-color: {{ note_color }};">
         <form action="" method="post">
         {% csrf_token %}
-            {{ form.title }}
-            {{ form.text }}
-        <input type="submit" value="Submit" />
+
+            <div class="note_header" style="--bg-color: {{form.color.value}};">
+                <input type="submit" class="button-img" value="Готово">
+                {{ form.title }}
+                {{ form.category }}
+                {% for radio in form.color %}
+                    <div class="color-radio" style="--bg-color: {{radio.value}};">
+                        {{ radio }}
+                    </div>
+                {% endfor %}
+                </div>
+            <div class="textbox" rows="100">
+                {{ form.text }}
+            </div>
+
         </form>
     </div>
 </div>
