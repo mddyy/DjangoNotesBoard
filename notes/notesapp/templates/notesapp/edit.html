@@ -48,7 +48,7 @@
                 {{ form.category }}
                 {% for radio in form.color %}
                     <div class="color-radio" style="--bg-color: {{radio.value}};">
-                        {{ radio }}
+                        {{ radio.tag }}
                     </div>
                 {% endfor %}
                 </div>
