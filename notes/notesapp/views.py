@@ -37,6 +37,7 @@ class MainPage(LoginRequiredMixin, TemplateView):
                 'notes': notes,
             }
         )
+
         return context
 
 
@@ -72,11 +73,10 @@ class ArchivePage(LoginRequiredMixin, TemplateView):
         return context
 
 
-class NoteForm(forms.ModelForm):
+class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
     class Meta:
         model = Note
         fields = ('title', 'text', 'category', 'color')
-
 
 def new_note(request):
     form = NoteForm()
@@ -108,6 +108,23 @@ def new_note(request):
 def edit_note(request, pk):
     note_instance = get_object_or_404(Note, pk=pk)
 
+    # отобрать все заметки данного пользователя за исключением архивированных
+    archive = {item.note for item in Archive.objects.all()}
+    categories = {note.category for note in Note.objects.filter(creator=request.user) if note not in archive}
+
+    # сгруппировать заметки по категориям и отсортировать по дате изменения
+    notes = [
+        {
+            'category': category,
+            'notes_of_category': [
+                note for note in Note.objects \
+                    .filter(creator=request.user, category=category) \
+                    .order_by('-last_change') if note not in archive
+            ]
+        }
+        for category in categories
+    ]
+
     # если запрос был POST - создать шаблон с заполненными данными
     if request.method == 'POST':
         form = NoteForm(request.POST, instance=note_instance)
@@ -128,7 +145,7 @@ def edit_note(request, pk):
     else:
         form = NoteForm(instance=note_instance)
 
-    return render(request, 'notesapp/edit.html', {'form': form})
+    return render(request, 'notesapp/edit.html', {'form': form, 'notes': notes})
 
 
 def archivate_note(request, pk):

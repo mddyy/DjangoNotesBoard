@@ -13,41 +13,58 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet">
-        <h1 style="text-align:center;">Заметки</h1>
-	</head>
+        <div class="header">
+            <h1>Заметки</h1>
+
+            <a href="{% url 'logout' %}">
+                <img src="{% static 'images/logout.svg' %}"  class="button-img">
+            </a>
+
+        </div>
+    </head>
+
 	<body>
-        {% block content %}
-            <p align="center"><a href="{% url 'logout' %}">Log Out</a></p>
-            <p align="center"><a href="{% url 'new' %}">New</a></p>
-            <div class="container">
-                <div class="container">
-                    {% for item in notes %}
-                <article class="category">
-                    <h2>{{item.category.name}}</h2>
-                    <div class="wrapper">
-                        {% for note in item.notes_of_category %}
-
-                    <div>
-                        <div class="note" style="--bg-color: {{note.color}};">
-                            <div class="note_header">
-                                <a href="{% url 'edit' note.id %}">
-                                    <h3>{{note.title}}</h3>
-                                </a>
-                                <a href="{% url 'archivate' note.id %}">
-                                    <img src="{% static 'images/archivate.svg' %}"  class="button-img">
-                                </a>
-                            </div>
-                            <p>{{note.sliced_text}}</p>
-                        </div>
-                    </div>
-
-                    {% endfor %}
-                    </div>
-                </article>
-                {% endfor %}
-                </div>
+    {% block content %}
+        <div class="container">
+            <div class="toolbox">
+                {% block toolbox %}
+                <a href="{% url 'new' %}">
+                    <img src="{% static 'images/new.svg' %}"  class="button-img">
+                </a>
+                <a href="{% url 'archive' %}">
+                    <img src="{% static 'images/history.svg' %}"  class="button-img">
+                </a>
+                {% endblock %}
             </div>
-        <p align="center"><a href="{% url 'archive' %}">Архивированные заметки</a></p>
-        {% endblock %}
+        </div>
+        <div class="container">
+        {% for item in notes %}
+            <article class="category">
+                <h2>{{item.category.name}}</h2>
+                <div class="wrapper">
+                {% for note in item.notes_of_category %}
+
+                <div>
+                    <div class="note" style="--bg-color: {{note.color}};">
+                        <div class="note_header" style="--bg-color: {{note.color}};">
+                            <a href="{% url 'edit' note.id %}">
+                                <h3>{{note.title}}</h3>
+                            </a>
+                            <a href="{% url 'archivate' note.id %}">
+                                <img src="{% static 'images/archivate.svg' %}"  class="button-img">
+                            </a>
+                        </div>
+                        <p>{{note.text}}</p>
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+        </article>
+        {% endfor %}
+        </div>
+    {% endblock %}
+    {% block filter %}
+    {% endblock %}
 	</body>
 </html>

@@ -1,6 +1,6 @@
 .category {
-    margin: 1em;
-    padding: 2em;
+    margin: 10px;
+    padding: 20px;
     background-color: #fff7;
     border-radius: 1em;
     border: 1px solid #aaa5;
@@ -12,7 +12,7 @@
     border-radius: 1em;
     border: 1px solid rgb(150,150,150);
     background:
-        linear-gradient(rgba(255,255,255,.1) 50%, rgba(0,0,0,.1) 100%)
+        linear-gradient(rgba(255,255,255,.1) 0%, rgba(0,0,0,.05) 100%)
         var(--bg-color)
         no-repeat;
     padding: 5px;
@@ -24,7 +24,7 @@
 
 .note:hover {
     background:
-        linear-gradient(rgba(255,255,255,.2) 50%, rgba(0,0,0,.15) 100%)
+        linear-gradient(rgba(255,255,255,.2) 50%, rgba(0,0,0,.08) 100%)
         var(--bg-color)
         no-repeat;
     max-height: 50ch;
@@ -60,6 +60,14 @@ a:hover {
     scrollbar-width: thin;
 }
 
+.note > p {
+    background: linear-gradient(to bottom, transparent calc(1lh - 1px), #0005 1lh) top left / 100% 1lh;
+}
+
+.note > p:hover {
+    background: linear-gradient(to bottom, transparent calc(1lh - 1px), #000 1lh) top left / 100% 1lh;
+}
+
 .container {
     width: 100%;
     background-color: #eee;
@@ -73,44 +81,117 @@ a:hover {
 }
 
 .note::-webkit-scrollbar {
-  width: 16px;
+  width: 4px;
 }
 
 .note::-webkit-scrollbar-thumb {
-  border: 6px solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
-  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  background-clip: content-box;
+  border-radius: 2px;
   background-color: #5555;
 }
 
 .note_header {
     display: table-row;
+    position: sticky;
+    top: 0;
+    --bg-color: #fff;
+    background:
+        linear-gradient(rgba(255,255,255,.05) 10%, rgba(0,0,0,0) 100%)
+        var(--bg-color)
+        no-repeat;
+    opacity: 80%;
 }
 
 .note_header > a {
     width: 91.7%;
-}
-
-.note_header a, button {
-    padding-top: 10px;
+    padding-top: 5px;
     padding-left: 5px;
     display: table-cell;
 }
 
 .button-img {
-    position: relative;
-    top: -5px;
-    left: -8px;
+    margin: 5px;
     opacity: 0.5;
     border: 1px dashed rgb(150,150,150);
     border-radius: 5px;
     background-color: #fff1;
-    width: 25px;
 }
 
 .button-img:hover {
     opacity: 0.9;
     border: 1px solid rgb(150,150,150);
     background-color: #fff9;
-    width: 25px;
+}
+
+.header {
+    display: table-row;
+    background:
+        linear-gradient(rgb(246, 246, 246) 50%, rgb(240, 240, 240) 100%)
+        no-repeat;
+    border-bottom: 1px solid #ddd;
+}
+
+.header > h1 {
+    display: table-cell;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.header > a {
+    display: table-cell;
+}
+
+.header > a > img {
+    opacity: 0.7;
+    width: 35px;
+    position: relative;
+    top: -8px;
+}
+
+.toolbox {
+    margin: 10px;
+    padding: 20px;
+    background-color: #fff7;
+    border-radius: 1em;
+    border: 1px solid #aaa5;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+.toolbox > a > img {
+    opacity: 0.7;
+    width: 50px;
+    margin-inline: 5px;
+}
+
+
+.filter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #3333;
+    backdrop-filter: blur(5px);
+    height: 100%;
+    width: 100%;
+}
+
+.form {
+    position: fixed;
+    top: 15%;
+    left: 25%;
+    width: 50%;
+    align-self: center;
+     --bg-color: #fff;
+    border-radius: 1em;
+    border: 1px solid rgb(150,150,150);
+    background:
+        linear-gradient(rgba(255,255,255,.1) 50%, rgba(0,0,0,.1) 100%)
+        var(--bg-color)
+        no-repeat;
+    padding: 5px;
+    padding-top: 0;
+    min-height: 10px;
+    overflow-y: hidden;
+    z-index: 1;
 }
