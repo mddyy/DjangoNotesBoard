@@ -87,22 +87,30 @@ a:hover {
     display: table-row;
 }
 
+.note_header > a {
+    width: 91.7%;
+}
+
 .note_header a, button {
     padding-top: 10px;
     padding-left: 5px;
     display: table-cell;
 }
 
-.note_header button {
+.button-img {
+    position: relative;
+    top: -5px;
+    left: -8px;
+    opacity: 0.5;
+    border: 1px dashed rgb(150,150,150);
+    border-radius: 5px;
+    background-color: #fff1;
     width: 25px;
-    height: 25px;
-    margin-left: 5px;
-    z-index: -10;
-    border-radius: 8px;
-    border: 0;
-    background-color: #fff7;
 }
 
-.note_header a {
-    width: 91.7%;
+.button-img:hover {
+    opacity: 0.9;
+    border: 1px solid rgb(150,150,150);
+    background-color: #fff9;
+    width: 25px;
 }

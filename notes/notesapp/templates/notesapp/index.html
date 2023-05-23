@@ -33,7 +33,9 @@
                                 <a href="{% url 'edit' note.id %}">
                                     <h3>{{note.title}}</h3>
                                 </a>
-                                <button type="submit" onclick="location.href='{% url 'archivate' note.id %}'">A</button>
+                                <a href="{% url 'archivate' note.id %}">
+                                    <img src="{% static 'images/archivate.svg' %}"  class="button-img">
+                                </a>
                             </div>
                             <p>{{note.sliced_text}}</p>
                         </div>
