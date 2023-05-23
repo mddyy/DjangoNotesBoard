@@ -77,6 +77,15 @@ class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
     class Meta:
         model = Note
         fields = ('title', 'text', 'category', 'color')
+        widgets = {
+            #"text": forms.Textarea(attrs={"background-color": Note.COLOR_CHOICES[1]}),
+        }
+        labels = {
+            "title": "",
+            "text": "",
+            "color": ""
+        }
+
 
 def new_note(request):
     form = NoteForm()
@@ -145,7 +154,7 @@ def edit_note(request, pk):
     else:
         form = NoteForm(instance=note_instance)
 
-    return render(request, 'notesapp/edit.html', {'form': form, 'notes': notes})
+    return render(request, 'notesapp/edit.html', {'form': form, 'notes': notes, 'note_color': note_instance.color })
 
 
 def archivate_note(request, pk):

@@ -38,10 +38,11 @@
         </article>
         {% endfor %}
 
-    <div class="form">
+    <div class="form" style="--bg-color: {{ note_color }};">
         <form action="" method="post">
         {% csrf_token %}
-            {{ form.as_p }}
+            {{ form.title }}
+            {{ form.text }}
         <input type="submit" value="Submit" />
         </form>
     </div>
