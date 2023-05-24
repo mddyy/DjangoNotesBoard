@@ -189,10 +189,6 @@ a:hover {
     overflow-y: auto;
 }
 
-input {
-    background-color: #faf;
-}
-
 .textbox {
     height: 100lh;
     background-color: none;
@@ -223,10 +219,6 @@ textarea::-webkit-scrollbar {
    display: none;
  }
 
- .textbox::-webkit-scrollbar {
-   display: none;
- }
-
  .color-radio {
     margin: 3px;
     width: 2em;
@@ -236,3 +228,26 @@ textarea::-webkit-scrollbar {
     background: none;
     label: none;
  }
+
+ form {
+    display: grid;
+    align-content: center;
+ }
+
+.register-form {
+    margin: 5px;
+    background-color: #fefefe;
+    font-size: 14pt;
+    corner-radius: 1em;
+}
+
+input {
+    margin: 5px;
+}
+
+form > input[type=submit] {
+    opacity: 90%;
+    font-size: 14pt;
+    height: 1.4lh;
+    width: 8ch;
+}

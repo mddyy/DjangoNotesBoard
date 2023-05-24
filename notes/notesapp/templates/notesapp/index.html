@@ -15,10 +15,18 @@
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet">
         <div class="header">
             <h1>Заметки</h1>
-
+            {% if user.is_authenticated %}
             <a href="{% url 'logout' %}">
                 <img src="{% static 'images/logout.svg' %}"  class="button-img">
             </a>
+            {% else %}
+            <a href="{% url 'register' %}">
+                <img src="{% static 'images/register.svg' %}"  class="button-img">
+            </a>
+            <a href="{% url 'login' %}">
+                <img src="{% static 'images/login.svg' %}"  class="button-img">
+            </a>
+            {% endif %}
 
         </div>
     </head>

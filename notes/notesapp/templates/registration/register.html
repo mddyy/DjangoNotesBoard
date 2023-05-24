@@ -1,0 +1,35 @@
+{% extends "notesapp/index.html" %}
+{% load static %}
+{% block content %}
+
+{% if form.errors %}
+  <p>Error</p>
+{% endif %}
+
+<div class="category">
+  <form action="" method="post">
+        {% csrf_token %}
+            <table align="center" class="register-form">
+                    <tr>
+                        <td align="right">{{ form.username.label }}: </td>
+                        <td>{{ form.username }}</td>
+                    </tr>
+                    <tr>
+                        <td align="right">{{ form.password.label }}: </td>
+                        <td>{{ form.password }}</td>
+                    </tr>
+                    <tr>
+                        <td align="right">{{ form.password_confirm.label }}: </td>
+                        <td>{{ form.password_confirm }}</td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="2">
+                            <input type="submit" value="Готово" class="button-img" align="center">
+                        </td>
+                    </tr>
+            </table>
+
+        </form>
+
+</div>
+{% endblock %}

@@ -2,6 +2,7 @@ from django import forms
 from django.views.generic.base import TemplateView, View
 from .models import Category, Note, Archive
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -154,7 +155,7 @@ def edit_note(request, pk):
     else:
         form = NoteForm(instance=note_instance)
 
-    return render(request, 'notesapp/edit.html', {'form': form, 'notes': notes, 'note_color': note_instance.color })
+    return render(request, 'notesapp/edit.html', {'form': form, 'notes': notes, 'note_color': note_instance.color})
 
 
 def archivate_note(request, pk):
@@ -171,6 +172,43 @@ def unarchivate_note(request, pk):
 
 def delete_note(request, pk):
     note_instance = get_object_or_404(Note, pk=pk)
-    Archive.objects.filter(note=note_instance)[0].delete()
-    Note.objects.filter(pk=pk)[0].delete()
+    if Archive.groups.filter(Note=note_instance).exists():
+        Archive.objects.get(note=note_instance).delete()
+        Note.objects.get(note=note_instance).delete()
     return redirect('archive')
+
+
+class RegisterForm(forms.ModelForm):
+    password_confirm = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+
+    def clean_password_confirm(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password_confirm']:
+            raise forms.ValidationError('Passwords don\'t match.')
+        return cd['password_confirm']
+
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+        widgets = {
+            "password": forms.PasswordInput(),
+        }
+
+
+def register(request):
+    # если запрос был POST - создать шаблон с заполненными данными
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.username = form.cleaned_data['username']
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.group = Group.objects.filter(name='common user')[0]
+            new_user.save()
+            return redirect('mainpage')
+
+    else:
+        form = RegisterForm()
+
+    return render(request, 'registration/register.html', {'form': form})
