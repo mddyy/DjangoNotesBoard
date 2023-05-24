@@ -46,11 +46,7 @@
                 <input type="submit" class="button-img" value="Готово">
                 {{ form.title }}
                 {{ form.category }}
-                {% for radio in form.color %}
-                    <div class="color-radio" style="--bg-color: {{radio.value}};">
-                        {{ radio.tag }}
-                    </div>
-                {% endfor %}
+                {{ form.color }}
                 </div>
             <div class="textbox" rows="100">
                 {{ form.text }}

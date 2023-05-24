@@ -50,6 +50,7 @@ class ArchivePage(LoginRequiredMixin, TemplateView):
 
         # отобрать все заметки данного пользователя за исключением архивированных
         archive = {item.note for item in Archive.objects.all()}
+        archive_count = len(archive)
         categories = {note.category for note in Note.objects.filter(creator=self.request.user) if note in archive}
 
         # сгруппировать заметки по категориям и отсортировать по дате изменения
@@ -69,6 +70,7 @@ class ArchivePage(LoginRequiredMixin, TemplateView):
         context.update(
             {
                 'notes': notes,
+                'archive_count': archive_count
             }
         )
         return context
@@ -78,9 +80,6 @@ class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
     class Meta:
         model = Note
         fields = ('title', 'text', 'category', 'color')
-        widgets = {
-            "color": forms.RadioSelect(),
-        }
         labels = {
             "title": "",
             "text": "",
@@ -90,7 +89,8 @@ class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
 
 def new_note(request):
     init_color = Note.COLOR_CHOICES[0][1]
-    form = NoteForm(initial={'color': init_color})
+    init_category = Category.objects.all()[0]
+    form = NoteForm()
 
     # отобрать все заметки данного пользователя за исключением архивированных
     archive = {item.note for item in Archive.objects.all()}
@@ -127,9 +127,14 @@ def new_note(request):
             return redirect('mainpage')
 
     else:
-        form = NoteForm(initial={'form': form, 'notes': notes, 'color': init_color})
+        form = NoteForm(initial={
+            'form': form,
+            'notes': notes,
+            'color': init_color,
+            'category': init_category
+        })
 
-    return render(request, 'notesapp/new.html', {'form': form, 'notes': notes, 'color': init_color})
+    return render(request, 'notesapp/new.html', {'form': form, 'notes': notes})
 
 
 def edit_note(request, pk):
@@ -195,6 +200,11 @@ def delete_note(request, pk):
         Archive.objects.get(note_id=note_instance.id).delete()
         Note.objects.get(note_id=note_instance.id).delete()
     return redirect('archive')
+
+def clear_archive(request):
+    for item in Archive.objects.all():
+        Note.objects.filter(id=item.note.id).delete()
+    return redirect('mainpage')
 
 
 class RegisterForm(forms.ModelForm):

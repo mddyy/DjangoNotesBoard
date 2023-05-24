@@ -4,8 +4,13 @@
 <div class="container">
             <div class="toolbox">
                 <a href="{% url 'mainpage' %}">
-    <img src="{% static 'images/back.svg' %}"  class="button-img">
-  </a>
+                    <img src="{% static 'images/back.svg' %}"  class="button-img">
+                </a>
+                {% if archive_count > 0 %}
+                <a href="{% url 'clear_archive' %}">
+                    <img src="{% static 'images/delete.svg' %}"  class="button-img">
+                </a>
+                {% endif %}
             </div>
         </div>
 <div class="container">

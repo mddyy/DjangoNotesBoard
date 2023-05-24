@@ -1,3 +1,8 @@
+body {
+	height: 100%;
+	background-color: #eee;
+}
+
 .category {
     margin: 10px;
     padding: 20px;
@@ -15,8 +20,6 @@
         linear-gradient(rgba(255,255,255,.1) 0%, rgba(0,0,0,.05) 100%)
         var(--bg-color)
         no-repeat;
-    padding: 5px;
-    padding-top: 0;
     min-height: 10px;
     max-height: 30ch;
     overflow-y: hidden;
@@ -88,6 +91,8 @@ a:hover {
     position: sticky;
     top: 0;
     --bg-color: #fff;
+    margin-left: -5px;
+    margin-right: -5px;
     background:
         linear-gradient(rgba(255,255,255,.05) 10%, rgba(0,0,0,0) 100%)
         var(--bg-color)
@@ -95,7 +100,8 @@ a:hover {
     opacity: 80%;
 }
 
-.note_header > a {
+.note_header > a, input[type=textbox] {
+    font-size: 18pt;
     width: 91.7%;
     padding-top: 5px;
     padding-left: 5px;
@@ -219,16 +225,6 @@ textarea::-webkit-scrollbar {
    display: none;
  }
 
- .color-radio {
-    margin: 3px;
-    width: 2em;
-    display: inline-block;
-    content: "";
-    --bg-color: #fff;
-    background: none;
-    label: none;
- }
-
  form {
     display: grid;
     align-content: center;
@@ -236,18 +232,65 @@ textarea::-webkit-scrollbar {
 
 .register-form {
     margin: 5px;
-    background-color: #fefefe;
+    background: none;
     font-size: 14pt;
     corner-radius: 1em;
 }
 
-input {
+.note_header > input[type=text] {
     margin: 5px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgb(150,150,150);
+    font-size: 18pt;
+    width: 50%;
+}
+
+.note_header > input[type=text]:focus {
+    border: none;
+    border-bottom: 1px solid rgb(150,150,150)
+}
+
+.note_header > .button-img {
+    width: 7ch;
+    font-size: 12pt;
+    height: 1.5lh;
 }
 
 form > input[type=submit] {
-    opacity: 90%;
+    opacity: 100%;
     font-size: 14pt;
     height: 1.4lh;
     width: 8ch;
+}
+
+.note_header > select {
+    margin-left: 5px;
+    margin-right: 5px;
+    background: none;
+    opacity: 90%;
+    font-size: 12pt;
+    height: 1.4lh;
+    width: 9ch;
+    border: 1px dashed rgb(150,150,150);
+    border-radius: 5px;
+}
+
+td {
+  padding: 5px 10px;
+}
+
+.filler {
+    position: relative;
+	height: 100%;
+
+}
+
+footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	z-index: -1;
 }

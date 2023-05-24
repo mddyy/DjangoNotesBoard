@@ -11,5 +11,6 @@ urlpatterns = [
     path('note/<int:pk>/archivate/', archivate_note, name='archivate'),
     path('note/<int:pk>/unarchivate/', unarchivate_note, name='unarchivate'),
     path('note/<int:pk>/delete/', delete_note, name='delete'),
-    path('register/', register, name='register')
+    path('register/', register, name='register'),
+    path('clear_archive/', clear_archive, name='clear_archive')
 ]
