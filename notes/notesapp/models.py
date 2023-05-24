@@ -32,14 +32,6 @@ class Note(models.Model):
     def __str__(self):
         return self.title
 
-    def archivate(self):
-        if self._is_arvivated():
-            Archive.objects.create(note=self)
-
-    def dearchivate(self):
-        if self._is_arvivated():
-            Archive.objects.filter(note=self).delete()
-
     @property
     def sliced_text(self):
         if len(self.text) > 80:

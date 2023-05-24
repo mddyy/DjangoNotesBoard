@@ -79,7 +79,7 @@ class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
         model = Note
         fields = ('title', 'text', 'category', 'color')
         widgets = {
-            "color": forms.RadioSelect(attrs={"background-color": Note.COLOR_CHOICES[1]}),
+            "color": forms.RadioSelect(),
         }
         labels = {
             "title": "",
@@ -89,7 +89,25 @@ class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
 
 
 def new_note(request):
-    form = NoteForm()
+    init_color = Note.COLOR_CHOICES[0][1]
+    form = NoteForm(initial={'color': init_color})
+
+    # отобрать все заметки данного пользователя за исключением архивированных
+    archive = {item.note for item in Archive.objects.all()}
+    categories = {note.category for note in Note.objects.filter(creator=request.user) if note not in archive}
+
+    # сгруппировать заметки по категориям и отсортировать по дате изменения
+    notes = [
+        {
+            'category': category,
+            'notes_of_category': [
+                note for note in Note.objects \
+                    .filter(creator=request.user, category=category) \
+                    .order_by('-last_change') if note not in archive
+            ]
+        }
+        for category in categories
+    ]
 
     # если запрос был POST - создать шаблон с заполненными данными
     if request.method == 'POST':
@@ -109,10 +127,9 @@ def new_note(request):
             return redirect('mainpage')
 
     else:
-        general_category = Category.objects.all()[0]
-        form = NoteForm(initial={'category': general_category, 'color': Note.COLOR_CHOICES[0]})
+        form = NoteForm(initial={'form': form, 'notes': notes, 'color': init_color})
 
-    return render(request, 'notesapp/edit.html', {'form': form})
+    return render(request, 'notesapp/new.html', {'form': form, 'notes': notes, 'color': init_color})
 
 
 def edit_note(request, pk):
@@ -160,21 +177,23 @@ def edit_note(request, pk):
 
 def archivate_note(request, pk):
     note_instance = get_object_or_404(Note, pk=pk)
-    Archive.objects.create(note=note_instance)
+    if not Archive.objects.filter(note_id=note_instance.id).exists():
+        Archive.objects.create(note=note_instance)
     return redirect('mainpage')
 
 
 def unarchivate_note(request, pk):
     note_instance = get_object_or_404(Note, pk=pk)
-    Archive.objects.filter(note=note_instance)[0].delete()
+    if Archive.objects.filter(note_id=note_instance.id).exists():
+        Archive.objects.get(note_id=note_instance.id).delete()
     return redirect('mainpage')
 
 
 def delete_note(request, pk):
     note_instance = get_object_or_404(Note, pk=pk)
-    if Archive.groups.filter(Note=note_instance).exists():
-        Archive.objects.get(note=note_instance).delete()
-        Note.objects.get(note=note_instance).delete()
+    if Archive.objects.filter(note_id=note_instance.id).exists():
+        Archive.objects.get(note_id=note_instance.id).delete()
+        Note.objects.get(note_id=note_instance.id).delete()
     return redirect('archive')
 
 

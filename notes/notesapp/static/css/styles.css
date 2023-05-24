@@ -169,7 +169,7 @@ a:hover {
 }
 
 .form {
-    --bg-color: rgb(0,255,9);
+    --bg-color: #fff;
     scrollbar-gutter: stable;
     position: fixed;
     top: 5%;
