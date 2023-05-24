@@ -167,3 +167,10 @@ def unarchivate_note(request, pk):
     note_instance = get_object_or_404(Note, pk=pk)
     Archive.objects.filter(note=note_instance)[0].delete()
     return redirect('mainpage')
+
+
+def delete_note(request, pk):
+    note_instance = get_object_or_404(Note, pk=pk)
+    Archive.objects.filter(note=note_instance)[0].delete()
+    Note.objects.filter(pk=pk)[0].delete()
+    return redirect('archive')

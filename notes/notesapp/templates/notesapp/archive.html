@@ -21,7 +21,10 @@
                 <h3>{{note.title}}</h3>
               </a>
               <a href="{% url 'unarchivate' note.id %}">
-                <img src="{% static 'images/unarchivate.svg' %}" class="button-img">
+                <img src="{% static 'images/restore.svg' %}" class="button-img">
+              </a>
+                <a href="{% url 'delete' note.id %}">
+                <img src="{% static 'images/delete.svg' %}" class="button-img">
               </a>
             </div>
             <p>{{note.text}}</p>
