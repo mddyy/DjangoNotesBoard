@@ -3,16 +3,16 @@
 
 {% block content %}
 <div class="container">
-            <div class="toolbox">
-                {% block toolbox %}
-                <a href="{% url 'new' %}">
-                    <img src="{% static 'images/new.svg' %}"  class="button-img">
-                </a>
-                <a href="{% url 'archive' %}">
-                    <img src="{% static 'images/history.svg' %}"  class="button-img">
-                </a>
-                {% endblock %}
-            </div>
+    <div class="toolbox">
+        {% block toolbox %}
+        <a href="{% url 'new' %}">
+            <img src="{% static 'images/new.svg' %}"  class="button-img">
+        </a>
+        <a href="{% url 'archive' %}">
+            <img src="{% static 'images/history.svg' %}"  class="button-img">
+        </a>
+        {% endblock %}
+    </div>
         {% for item in notes %}
             <article class="category">
                 <h2>{{item.category.name}}</h2>

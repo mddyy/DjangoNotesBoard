@@ -1,32 +1,31 @@
 {% extends "notesapp/index.html" %}
 {% load static %}
 {% block content %}
+  {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+  {% endif %}
 
-{% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+  <div class="category">
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+        <table align="center" class="register-form">
 
-<div class="category">
-  <form method="post" action="{% url 'login' %}">
-  {% csrf_token %}
-      <table align="center" class="register-form">
+          <tr>
+            <td align="right">{{ form.username.label }}</td>
+            <td>{{ form.username }}</td>
+          </tr>
 
-        <tr>
-          <td align="right">{{ form.username.label }}</td>
-          <td>{{ form.username }}</td>
-        </tr>
+          <tr>
+            <td align="right">{{ form.password.label }}</td>
+            <td>{{ form.password }}</td>
+          </tr>
 
-        <tr>
-          <td align="right">{{ form.password.label }}</td>
-          <td>{{ form.password }}</td>
-        </tr>
-
-        <tr>
-          <td align="center" colspan="2">
-            <input type="submit" value="Готово" class="button-img" align="center">
-          </td>
-        </tr>
-      </table>
-  </form>
-</div>
+          <tr>
+            <td align="center" colspan="2">
+              <input type="submit" value="Готово" class="button-img" align="center">
+            </td>
+          </tr>
+        </table>
+    </form>
+  </div>
 {% endblock %}

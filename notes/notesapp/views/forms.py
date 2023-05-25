@@ -20,12 +20,10 @@ class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
 
 
 def get_user_notes(request, archivated=False):
-    # отобрать все заметки данного пользователя за исключением архивированных
     archive = {item.note for item in Archive.objects.all()}
-    categories = {note.category for note in Note.objects.filter(creator=request.user) if note not in archive}
 
     if not archivated:
-    # сгруппировать заметки по категориям и отсортировать по дате изменения
+        categories = {note.category for note in Note.objects.filter(creator=request.user) if note not in archive}
         notes = [
             {
                 'category': category,
@@ -38,6 +36,7 @@ def get_user_notes(request, archivated=False):
             for category in categories
         ]
     else:
+        categories = {note.category for note in Note.objects.filter(creator=request.user) if note in archive}
         notes = [
             {
                 'category': category,
