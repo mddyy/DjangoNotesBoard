@@ -11,9 +11,9 @@
         <a href="{% url 'archive' %}">
           <img src="{% static 'images/history.svg' %}"  class="button-img">
         </a>
-          <form method="post" action="">
+          <form method="post" action="" class="register-form">
               {% csrf_token %}
-            {{ form }}
+            {{ form.name }}
               <input type="submit" value="Готово" class="button-img" align="center">
           </form>
         {% endblock %}

@@ -3,7 +3,7 @@ from .views.archivation import *
 from .views.mainpage import MainPage
 from .views.register import register
 from .views.note_forms import *
-from .views.category_form import new_category
+from .views.category_form import *
 
 
 urlpatterns = [
@@ -17,5 +17,6 @@ urlpatterns = [
     path('note/<int:pk>/delete/', delete_note, name='delete'),
     path('register/', register, name='register'),
     path('clear_archive/', clear_archive, name='clear_archive'),
-    path('new_category/', new_category, name='new_category')
+    path('category/new/', new_category, name='new_category'),
+    path('category/<int:pk>/delete/', delete_category, name='delete_category')
 ]

@@ -4,6 +4,7 @@ from django import forms
 from django.views.generic.base import View
 from django.shortcuts import render, redirect
 from .note_forms import get_user_notes
+from django.shortcuts import redirect, get_object_or_404
 
 
 class CategoryForm(LoginRequiredMixin, forms.ModelForm, View):
@@ -40,3 +41,9 @@ def new_category(request):
         form = CategoryForm()
 
     return render(request, 'notesapp/new_category.html', {'form': form, 'notes': notes})
+
+
+def delete_category(request, pk):
+    if Category.objects.filter(pk=pk).exists():
+        Category.objects.get(pk=pk).delete()
+    return redirect('mainpage')

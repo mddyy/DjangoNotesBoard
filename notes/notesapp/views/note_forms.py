@@ -30,9 +30,12 @@ def get_user_notes(request, archivated=False):
     :return:
     """
     archive = {item.note for item in Archive.objects.all()}
+    categories = Category.objects.filter(creator=request.user)
+    if len(categories) == 0:
+        Category.objects.create(creator=request.user, name='General')
+        categories = Category.objects.all()
 
     if not archivated:
-        categories = {note.category for note in Note.objects.filter(creator=request.user) if note not in archive}
         notes = [
             {
                 'category': category,
@@ -45,7 +48,6 @@ def get_user_notes(request, archivated=False):
             for category in categories
         ]
     else:
-        categories = {note.category for note in Note.objects.filter(creator=request.user) if note in archive}
         notes = [
             {
                 'category': category,
