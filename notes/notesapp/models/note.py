@@ -29,3 +29,5 @@ class Note(models.Model):
             return self.text[:80] + '...'
         else:
             return self.text
+
+

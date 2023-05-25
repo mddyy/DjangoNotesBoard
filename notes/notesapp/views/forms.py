@@ -1,8 +1,8 @@
 from django import forms
-from django.views.generic.base import TemplateView, View
+from django.views.generic.base import View
 from ..models.note import Note
-from ..models.archive import Archive
 from ..models.category import Category
+from ..models.archive import Archive
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -24,7 +24,7 @@ def get_user_notes(request, archivated=False):
     archive = {item.note for item in Archive.objects.all()}
     categories = {note.category for note in Note.objects.filter(creator=request.user) if note not in archive}
 
-    if archivated:
+    if not archivated:
     # сгруппировать заметки по категориям и отсортировать по дате изменения
         notes = [
             {
@@ -57,23 +57,7 @@ def new_note(request):
     init_color = Note.COLOR_CHOICES[0][1]
     init_category = Category.objects.all()[0]
     form = NoteForm()
-
-    # отобрать все заметки данного пользователя за исключением архивированных
-    archive = {item.note for item in Archive.objects.all()}
-    categories = {note.category for note in Note.objects.filter(creator=request.user) if note not in archive}
-
-    # сгруппировать заметки по категориям и отсортировать по дате изменения
-    notes = [
-        {
-            'category': category,
-            'notes_of_category': [
-                note for note in Note.objects \
-                    .filter(creator=request.user, category=category) \
-                    .order_by('-last_change') if note not in archive
-            ]
-        }
-        for category in categories
-    ]
+    notes = get_user_notes(request)
 
     # если запрос был POST - создать шаблон с заполненными данными
     if request.method == 'POST':
@@ -105,23 +89,7 @@ def new_note(request):
 
 def edit_note(request, pk):
     note_instance = get_object_or_404(Note, pk=pk)
-
-    # отобрать все заметки данного пользователя за исключением архивированных
-    archive = {item.note for item in Archive.objects.all()}
-    categories = {note.category for note in Note.objects.filter(creator=request.user) if note not in archive}
-
-    # сгруппировать заметки по категориям и отсортировать по дате изменения
-    notes = [
-        {
-            'category': category,
-            'notes_of_category': [
-                note for note in Note.objects \
-                    .filter(creator=request.user, category=category) \
-                    .order_by('-last_change') if note not in archive
-            ]
-        }
-        for category in categories
-    ]
+    notes = get_user_notes(request)
 
     # если запрос был POST - создать шаблон с заполненными данными
     if request.method == 'POST':

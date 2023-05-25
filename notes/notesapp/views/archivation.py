@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from ..models.note import Note
 from ..models.archive import Archive
+from .forms import get_user_notes
 from django.shortcuts import redirect, get_object_or_404
 
 
@@ -10,24 +11,8 @@ class ArchivePage(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ArchivePage, self).get_context_data(**kwargs)
-
-        # отобрать все заметки данного пользователя за исключением архивированных
-        archive = {item.note for item in Archive.objects.all()}
-        archive_count = len(archive)
-        categories = {note.category for note in Note.objects.filter(creator=self.request.user) if note in archive}
-
-        # сгруппировать заметки по категориям и отсортировать по дате изменения
-        notes = [
-            {
-                'category': category,
-                'notes_of_category': [
-                    note for note in Note.objects\
-                        .filter(creator=self.request.user, category=category)\
-                        .order_by('-last_change') if note in archive
-                ]
-            }
-            for category in categories
-        ]
+        archive_count = len(Archive.objects.all())
+        notes = get_user_notes(self.request, archivated=True)
 
         # передать полученный список в шаблон
         context.update(
