@@ -3,6 +3,7 @@
 
 {% block content %}
     <div class="container">
+        <div class="category">
                 <div class="toolbox">
                     {% block toolbox %}
                     <a href="{% url 'new' %}">
@@ -13,6 +14,7 @@
                     </a>
                     {% endblock %}
                 </div>
+        </div>
             {% for item in notes %}
                 <article class="category">
                     <h2>{{item.category.name}}</h2>
