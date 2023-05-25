@@ -1,5 +1,8 @@
 from django.urls import path, include
-from .views import *
+from .views.archivation import *
+from .views.mainpage import MainPage
+from .views.register import register
+from .views.forms import *
 
 
 urlpatterns = [

@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Note, Category, Archive
+from .models.archive import Archive
+from .models.note import Note
+from .models.category import Category
 
 admin.site.register(Note)
 admin.site.register(Category)

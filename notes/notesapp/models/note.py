@@ -1,13 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import timezone
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
+from django.contrib.auth.models import User
+from .category import Category
 
 
 class Note(models.Model):
@@ -26,9 +20,6 @@ class Note(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     color = models.CharField(max_length=7, choices=COLOR_CHOICES, default=COLOR_CHOICES[0])
 
-    def _is_arvivated(self) -> bool:
-        return len(Archive.objects.filter(note=self)) == 1
-
     def __str__(self):
         return self.title
 
@@ -38,11 +29,3 @@ class Note(models.Model):
             return self.text[:80] + '...'
         else:
             return self.text
-
-
-class Archive(models.Model):
-    note = models.ForeignKey(Note, on_delete=models.CASCADE)
-    archivation_date = models.DateField(default=timezone.now)
-
-    def __str__(self):
-        return str(self.note)
