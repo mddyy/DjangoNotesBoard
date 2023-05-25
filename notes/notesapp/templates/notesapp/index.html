@@ -34,27 +34,32 @@
 	<body>
         {% block content %}
             <div class="container">
-                <div class="toolbox">
-                    {% block toolbox %}
-                    <a href="{% url 'new' %}">
-                        <img src="{% static 'images/new.svg' %}"  class="button-img">
-                    </a>
-                    <a href="{% url 'archive' %}">
-                        <img src="{% static 'images/history.svg' %}"  class="button-img">
-                    </a>
-                    <a href="{% url 'new_category' %}">
-                        <img src="{% static 'images/new_category.svg' %}"  class="button-img">
-                    </a>
-                    {% endblock %}
+                <div class="category">
+                    <div class="toolbox">
+                        {% block toolbox %}
+                        <a href="{% url 'new' %}">
+                            <img src="{% static 'images/new.svg' %}"  class="button-img">
+                        </a>
+                        <a href="{% url 'archive' %}">
+                            <img src="{% static 'images/history.svg' %}"  class="button-img">
+                        </a>
+                        <a href="{% url 'new_category' %}">
+                            <img src="{% static 'images/new_category.svg' %}"  class="button-img">
+                        </a>
+                        {% endblock %}
+                    </div>
                 </div>
             </div>
         <div class="container">
         {% for item in notes %}
             <article class="category">
-                <h2>{{item.category.name}}</h2>
-                <a href="{% url 'delete_category' item.category.id %}">
+                <div class="category-header">
+                    <h2>{{item.category.name}}</h2>
+                    <a href="{% url 'delete_category' item.category.id %}">
                         <img src="{% static 'images/delete_category.svg' %}"  class="button-img">
-                </a>
+                    </a>
+                </div>
+
                 <div class="wrapper">
                 {% for note in item.notes_of_category %}
 

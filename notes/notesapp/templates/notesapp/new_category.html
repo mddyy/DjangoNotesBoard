@@ -3,21 +3,23 @@
 
 {% block content %}
     <div class="container">
-      <div class="toolbox">
-        {% block toolbox %}
-        <a href="{% url 'new' %}">
-          <img src="{% static 'images/new.svg' %}"  class="button-img">
-        </a>
-        <a href="{% url 'archive' %}">
-          <img src="{% static 'images/history.svg' %}"  class="button-img">
-        </a>
-          <form method="post" action="" class="register-form">
-              {% csrf_token %}
-            {{ form.name }}
-              <input type="submit" value="Готово" class="button-img" align="center">
-          </form>
-        {% endblock %}
-      </div>
+        <div class="category">
+          <div class="toolbox">
+            {% block toolbox %}
+            <a href="{% url 'new' %}">
+              <img src="{% static 'images/new.svg' %}"  class="button-img">
+            </a>
+            <a href="{% url 'archive' %}">
+              <img src="{% static 'images/history.svg' %}"  class="button-img">
+            </a>
+              <form method="post" action="" class="register-form">
+                  {% csrf_token %}
+                {{ form.name }}
+                  <input type="submit" value="Готово" class="button-img" align="center">
+              </form>
+            {% endblock %}
+          </div>
+        </div>
     </div>
 
     <div class="container">

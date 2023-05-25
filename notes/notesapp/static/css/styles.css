@@ -12,6 +12,31 @@ body {
     font: 1rem 'Fira Sans', sans-serif;
 }
 
+.toolbox > form {
+    display: table-cell;;
+    background: none;
+}
+
+.toolbox > form > input {
+    display: table-cell;
+    font-size: 14pt;
+    margin: 10px;
+
+}
+
+.category-header {
+    display: table-row;
+}
+
+.category-header > h2 + a {
+    display: table-cell;
+}
+
+.category-header > a {
+    position: relative;
+    top: -1.8lh;
+}
+
 .note {
     --bg-color: #fff;
     border-radius: 1em;
@@ -150,9 +175,10 @@ a:hover {
 
 .toolbox {
     display: table-row;
+    width: 100%;
     margin: 10px;
     padding: 20px;
-    background-color: #fff7;
+    background: none;
     border-radius: 1em;
     border: 1px solid #aaa5;
     font: 1rem 'Fira Sans', sans-serif;
