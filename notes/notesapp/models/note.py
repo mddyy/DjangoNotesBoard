@@ -5,6 +5,9 @@ from .category import Category
 
 
 class Note(models.Model):
+    """
+    Класс заметки
+    """
     COLOR_CHOICES = [
         ('#FFFFFF', 'White'),
         ('#FFFF99', 'Yellow'),

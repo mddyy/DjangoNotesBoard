@@ -2,7 +2,8 @@ from django.urls import path, include
 from .views.archivation import *
 from .views.mainpage import MainPage
 from .views.register import register
-from .views.forms import *
+from .views.note_forms import *
+from .views.category_form import new_category
 
 
 urlpatterns = [
@@ -15,5 +16,6 @@ urlpatterns = [
     path('note/<int:pk>/unarchivate/', unarchivate_note, name='unarchivate'),
     path('note/<int:pk>/delete/', delete_note, name='delete'),
     path('register/', register, name='register'),
-    path('clear_archive/', clear_archive, name='clear_archive')
+    path('clear_archive/', clear_archive, name='clear_archive'),
+    path('new_category/', new_category, name='new_category')
 ]

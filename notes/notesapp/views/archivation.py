@@ -2,11 +2,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from ..models.note import Note
 from ..models.archive import Archive
-from .forms import get_user_notes
+from .note_forms import get_user_notes
 from django.shortcuts import redirect, get_object_or_404
 
 
 class ArchivePage(LoginRequiredMixin, TemplateView):
+    """
+    Страница, на которой отображаются только архивированные заметки
+    """
     template_name = 'notesapp/archive.html'
 
     def get_context_data(self, **kwargs):
@@ -25,6 +28,12 @@ class ArchivePage(LoginRequiredMixin, TemplateView):
 
 
 def archivate_note(request, pk):
+    """
+    Архивировать заметку
+    :param request:
+    :param pk:
+    :return:
+    """
     note_instance = get_object_or_404(Note, pk=pk)
     if not Archive.objects.filter(note_id=note_instance.id).exists():
         Archive.objects.create(note=note_instance)
@@ -32,6 +41,12 @@ def archivate_note(request, pk):
 
 
 def unarchivate_note(request, pk):
+    """
+    Разархивировать заметку
+    :param request:
+    :param pk:
+    :return:
+    """
     note_instance = get_object_or_404(Note, pk=pk)
     if Archive.objects.filter(note_id=note_instance.id).exists():
         Archive.objects.get(note_id=note_instance.id).delete()
@@ -39,6 +54,12 @@ def unarchivate_note(request, pk):
 
 
 def delete_note(request, pk):
+    """
+    Удалить заметку
+    :param request:
+    :param pk:
+    :return:
+    """
     note_instance = get_object_or_404(Note, pk=pk)
     if Archive.objects.filter(note_id=note_instance.id).exists():
         Archive.objects.get(note_id=note_instance.id).delete()
@@ -47,6 +68,11 @@ def delete_note(request, pk):
 
 
 def clear_archive(request):
+    """
+    Очистить архив
+    :param request:
+    :return:
+    """
     for item in Archive.objects.all():
         Note.objects.filter(id=item.note.id).delete()
     return redirect('mainpage')

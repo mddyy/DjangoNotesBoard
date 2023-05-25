@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
-from .forms import get_user_notes
+from .note_forms import get_user_notes
 
 
 class MainPage(LoginRequiredMixin, TemplateView):
+    """
+    Представление главной страницы
+    """
     template_name = 'notesapp/index.html'
 
     def get_context_data(self, **kwargs):

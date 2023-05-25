@@ -1,0 +1,50 @@
+{% extends "notesapp/index.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+      <div class="toolbox">
+        {% block toolbox %}
+        <a href="{% url 'new' %}">
+          <img src="{% static 'images/new.svg' %}"  class="button-img">
+        </a>
+        <a href="{% url 'archive' %}">
+          <img src="{% static 'images/history.svg' %}"  class="button-img">
+        </a>
+          <form method="post" action="">
+              {% csrf_token %}
+            {{ form }}
+              <input type="submit" value="Готово" class="button-img" align="center">
+          </form>
+        {% endblock %}
+      </div>
+    </div>
+
+    <div class="container">
+     {% for item in notes %}
+        <article class="category">
+          <h2>{{item.category.name}}</h2>
+          <div class="wrapper">
+          {% for note in item.notes_of_category %}
+            <div>
+              <div class="note" style="--bg-color: {{note.color}};">
+                <div class="note_header" style="--bg-color: {{note.color}};">
+                  <a href="{% url 'edit' note.id %}">
+                    <h3>{{note.title}}</h3>
+                  </a>
+                  <a href="{% url 'unarchivate' note.id %}">
+                    <img src="{% static 'images/restore.svg' %}" class="button-img">
+                  </a>
+                    <a href="{% url 'delete' note.id %}">
+                    <img src="{% static 'images/delete.svg' %}" class="button-img">
+                  </a>
+                </div>
+                <p>{{note.text}}</p>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+        </article>
+        {% endfor %}
+    </div>
+{% endblock %}

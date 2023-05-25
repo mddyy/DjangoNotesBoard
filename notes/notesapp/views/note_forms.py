@@ -9,6 +9,9 @@ from django.utils import timezone
 
 
 class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
+    """
+    Форма добавления/редактирования заметки
+    """
     class Meta:
         model = Note
         fields = ('title', 'text', 'category', 'color')
@@ -20,6 +23,12 @@ class NoteForm(LoginRequiredMixin, forms.ModelForm, View):
 
 
 def get_user_notes(request, archivated=False):
+    """
+    Получить список заметок для отображения
+    :param request:
+    :param archivated: только архивированные (по умолчанию False)
+    :return:
+    """
     archive = {item.note for item in Archive.objects.all()}
 
     if not archivated:
@@ -53,6 +62,11 @@ def get_user_notes(request, archivated=False):
 
 
 def new_note(request):
+    """
+    Создать новую заметку
+    :param request:
+    :return:
+    """
     init_color = Note.COLOR_CHOICES[0][1]
     init_category = Category.objects.all()[0]
     form = NoteForm()
@@ -87,6 +101,12 @@ def new_note(request):
 
 
 def edit_note(request, pk):
+    """
+    Редактировать существующую заметку
+    :param request:
+    :param pk:
+    :return:
+    """
     note_instance = get_object_or_404(Note, pk=pk)
     notes = get_user_notes(request)
 

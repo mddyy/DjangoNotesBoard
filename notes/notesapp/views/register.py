@@ -4,6 +4,9 @@ from django.shortcuts import render, redirect
 
 
 class RegisterForm(forms.ModelForm):
+    """
+    Форма регистрации пользователей. Имя пользователя, пароль и поддверждение пароля
+    """
     password_confirm = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
 
     def clean_password_confirm(self):
@@ -21,6 +24,11 @@ class RegisterForm(forms.ModelForm):
 
 
 def register(request):
+    """
+    Зарегистрировать пользователя
+    :param request:
+    :return:
+    """
     # если запрос был POST - создать шаблон с заполненными данными
     if request.method == 'POST':
         form = RegisterForm(request.POST)
